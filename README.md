@@ -1,4 +1,4 @@
-# Laptrinhweb_bai3
+<img width="1531" height="928" alt="image" src="https://github.com/user-attachments/assets/249cef89-e31a-44b9-a729-80b6f1e9ca4d" /># Laptrinhweb_bai3
 ## 1. Khởi chạy cmd với adminitor và thiết lập wsl:
 Chạy lệnh wls -install :
 <img width="1352" height="912" alt="image" src="https://github.com/user-attachments/assets/5527cf03-e4f4-4347-9455-17d7e26884c5" /> .
@@ -169,13 +169,28 @@ networks:
 ### Thiết kế API trên Nodered:
 1. Login Flow (Function Branch)
  - <img width="1898" height="949" alt="image" src="https://github.com/user-attachments/assets/f4c729a2-6755-433e-90b7-c75595c283f7" />
+- <img width="1877" height="496" alt="image" src="https://github.com/user-attachments/assets/ceb41ef5-45c8-4656-b911-36bacee38a19" />
+- 
 
-2. Admin Guard: phục vụ tính năng cho chỉ admin như xem dữ liệu, thống kê.
 
-
-3. liệt kê các nhóm sản phẩm
+2. liệt kê các nhóm sản phẩm
    - <img width="1273" height="532" alt="image" src="https://github.com/user-attachments/assets/b4c4d527-1677-49c7-89f9-e5170a1df4c5" />
  - <img width="1050" height="178" alt="image" src="https://github.com/user-attachments/assets/b03eb5b7-b9e4-4049-a769-18df7a8914ae" />
-4. 
-   
+3. Lấy sản phẩm
+   - <img width="1110" height="343" alt="image" src="https://github.com/user-attachments/assets/30a22e1d-8e17-407b-92c7-2d14110fc8a9" />
+  -  <img width="1860" height="907" alt="image" src="https://github.com/user-attachments/assets/a21ed73b-2492-4106-99a8-f6531f03cf91" />
 
+4. Chức năng chọn sản phẩm, đặt hàng
+- <img width="1201" height="337" alt="image" src="https://github.com/user-attachments/assets/653da499-ae31-4135-81b4-a7db56554d98" />
+- <img width="1887" height="743" alt="image" src="https://github.com/user-attachments/assets/ae9fcdc8-eafe-41c5-bb2c-0b5b746370e3" />
+
+5. Chức năng đăng nhập
+- <img width="1188" height="364" alt="image" src="https://github.com/user-attachments/assets/7916baf1-864d-48e3-a529-8cde9a074eb7" />
+-  <img width="1531" height="928" alt="image" src="https://github.com/user-attachments/assets/a6b665d6-b9b2-46cf-9365-dd6ed03a9e6e" />
+
+ 
+6. Admin Guard: phục vụ tính năng cho chỉ admin như xem dữ liệu, thống kê.
+ - <img width="1085" height="452" alt="image" src="https://github.com/user-attachments/assets/258a1e86-51df-4d24-bafc-a01d83913662" />
+  
+
+#### Kết quả: đã hoàn thành được cài docker destop, cài được tất cả các container và truy cập được localhost theo yêu cầu, đã liên kết được frontend ( chạy bằng container nginx ) với backend ( nodered và phpMyAdmin, mariadb) nhưng chưa thể thống kê dữ liệu 
