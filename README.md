@@ -146,7 +146,7 @@ services:
       - "4443:443"
     volumes:
       # LƯU Ý: Nginx mặc định dùng conf.d/default.conf, tôi sẽ dùng tên file này.
-##### Đảm bảo file cấu hình là ./nginx/nginx.conf
+    # Đảm bảo file cấu hình là ./nginx/nginx.conf
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro 
       - ./nginx/html:/usr/share/nginx/html:ro
     depends_on:
