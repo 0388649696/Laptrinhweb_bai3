@@ -2,9 +2,12 @@
 1. Khởi chạy cmd với adminitor và thiết lập wsl:
 Chạy lệnh wls -install :
 <img width="1352" height="912" alt="image" src="https://github.com/user-attachments/assets/5527cf03-e4f4-4347-9455-17d7e26884c5" /> .
-- Window+R chạy optionalfeatures để mở Windows features. Tìm đến 
+- Window+R chạy optionalfeatures để mở Windows features. Tìm đến Virtul Machine Platform
 <img width="1062" height="637" alt="image" src="https://github.com/user-attachments/assets/65530457-861b-478f-b335-e975e435fc6f" /> .
-à 
+và cả Windows Subsystem for Linux
+<img width="558" height="493" alt="image" src="https://github.com/user-attachments/assets/4e4c2288-8eed-4adb-b9ad-2f3eaeb79156" /> .
+
+
 
 3. Cài đặt môi trường linux: docker desktop
    Chọn phương án 1 như sau:
