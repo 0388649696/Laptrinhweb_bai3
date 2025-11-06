@@ -171,4 +171,11 @@ networks:
  - <img width="1898" height="949" alt="image" src="https://github.com/user-attachments/assets/f4c729a2-6755-433e-90b7-c75595c283f7" />
 
 2. Admin Guard: phục vụ tính năng cho chỉ admin như xem dữ liệu, thống kê.
+
+
+3. liệt kê các nhóm sản phẩm
+   - <img width="1273" height="532" alt="image" src="https://github.com/user-attachments/assets/b4c4d527-1677-49c7-89f9-e5170a1df4c5" />
+ - <img width="1050" height="178" alt="image" src="https://github.com/user-attachments/assets/b03eb5b7-b9e4-4049-a769-18df7a8914ae" />
+4. 
    
+
