@@ -1,5 +1,5 @@
 # Laptrinhweb_bai3
-1. Khởi chạy cmd với adminitor và thiết lập wsl:
+## 1. Khởi chạy cmd với adminitor và thiết lập wsl:
 Chạy lệnh wls -install :
 <img width="1352" height="912" alt="image" src="https://github.com/user-attachments/assets/5527cf03-e4f4-4347-9455-17d7e26884c5" /> .
 - Window+R chạy optionalfeatures để mở Windows features. Tìm đến Virtul Machine Platform
@@ -19,6 +19,7 @@ và cả Windows Subsystem for Linux
 ## 3. Tạo dự án mới.
  - Đây đặt dự án tên là webbt3.
  - Lần đầu chạy lệnh docker-compose up -d để tải và sử dụng docker với nó.
+ - <img width="1088" height="603" alt="image" src="https://github.com/user-attachments/assets/682f6baf-632e-4e9e-9107-ad2899c1179a" />
  - <img width="921" height="1008" alt="image" src="https://github.com/user-attachments/assets/891863ae-1c9d-436b-8dbf-7a2357787f34" />
  -  Đến khi các Containers khởi động và Đang chạy hết thì được
 <img width="1562" height="867" alt="image" src="https://github.com/user-attachments/assets/c8096381-52e4-4f60-b2a3-61b0821093e6" />
@@ -161,5 +162,13 @@ networks:
 
 
 ## 4. Web form - Backend:
+### Thiết kế cơ sở dữ liệu:
+ - Hình dung bài toán và xây dựng cơ sở dữ liệu chứa các bảng con giải quyết yêu cầu đề bài
+ - <img width="1204" height="973" alt="image" src="https://github.com/user-attachments/assets/7aa6eef9-d488-4bbe-9d49-c9ca9ffaa68e" />
 
+### Thiết kế API trên Nodered:
+1. Login Flow (Function Branch)
+ - <img width="1898" height="949" alt="image" src="https://github.com/user-attachments/assets/f4c729a2-6755-433e-90b7-c75595c283f7" />
+
+2. Admin Guard: phục vụ tính năng cho chỉ admin như xem dữ liệu, thống kê.
    
