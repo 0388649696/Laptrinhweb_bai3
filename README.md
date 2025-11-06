@@ -1,4 +1,8 @@
 # Laptrinhweb_bai3
+Giảng viên : Đỗ Duy Cốp
+Lớp học phần: 58KTPM
+Ngày giao : 2025-10-24 13:50
+
 ## 1. Khởi chạy cmd với adminitor và thiết lập wsl:
 Chạy lệnh wls -install :
 <img width="1352" height="912" alt="image" src="https://github.com/user-attachments/assets/5527cf03-e4f4-4347-9455-17d7e26884c5" /> .
