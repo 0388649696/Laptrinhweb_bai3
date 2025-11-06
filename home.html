@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Hoạt động chung</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f4f4; }
+        .nav-bar { background-color: #333; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .user-info { display: flex; align-items: center; }
+        .logout-btn { background-color: #dc3545; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; margin-left: 15px; }
+        .logout-btn:hover { background-color: #c82333; }
+        .content { padding: 20px; max-width: 900px; margin: 20px auto; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .admin-link { color: #007bff; text-decoration: none; font-weight: bold; margin-top: 10px; display: inline-block; }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <h1>Cửa hàng Anhtu</h1>
+        <div class="user-info">
+            <span id="welcome-message">Xin chào, Khách hàng!</span>
+            <button id="logout-btn" class="logout-btn">Đăng Xuất</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <p>Bạn đã đăng nhập thành công.</p>
+        <p>Tên đăng nhập của bạn: <strong id="username-display"></strong></p>
+        <p>Quyền truy cập của bạn: <strong id="user-role"></strong></p>
+        <a href="admin.html">Bạn là người quản trị? truy cập</a>
+        
+        <a id="admin-link" href="admin.html" class="admin-link" style="display: none;">Truy cập Trang Quản Trị</a>
+    </div>
+
+    <div class="header">
+        <h1>🛒 Danh sách Sản phẩm</h1>
+        <div>
+            <a href="home.html">Quay lại Trang Chủ</a> | <span id="auth-status">Đang tải...</span>
+        </div>
+    </div>
+    
+    <div class="cart-section">
+        <h3>Giỏ hàng (<span id="cart-count">0</span>) | Tổng tiền: <span id="cart-total-display">0.00</span> VNĐ</h3>
+        <ul id="cart-items"></ul>
+
+        <div class="order-form-container" style="margin-top: 20px;">
+            <h4>Thông tin Đặt hàng</h4>
+            <form id="order-form">
+                <input type="text" id="order-name" placeholder="Tên người nhận" required>
+                <textarea id="order-address" placeholder="Địa chỉ giao hàng" required></textarea>
+                <input type="text" id="order-phone" placeholder="Số điện thoại" required>
+                <button type="button" id="submit-order-btn" class="add-btn">Xác nhận Đặt hàng</button>
+            </form>
+            <div id="order-status"></div>
+        </div>
+    </div>
+    
+
+    <script>
+        // --- LOGIC XÁC MINH PHIÊN (Chạy khi tải trang) ---
+        // --- LOGIC XÁC MINH PHIÊN (Chạy khi tải trang) ---
+    function checkAuthStatus() {
+        const token = localStorage.getItem('authToken');
+        const username = localStorage.getItem('tendangnhap'); // ĐỌC KHÓA ĐÚNG
+        const role = localStorage.getItem('role');
+
+        if (!token) {
+            window.location.href = "index.html";
+            return;
+        }
+
+        // --- HIỂN THỊ THÔNG TIN USER ĐÃ ĐĂNG NHẬP ---
+        document.getElementById('welcome-message').textContent = `Xin chào, ${username || 'User'}!`;
+        document.getElementById('username-display').textContent = username;
+        
+        // KHẮC PHỤC LỖI "UNDEFINED":
+        const displayRole = role || "Không xác định"; 
+        document.getElementById('user-role').textContent = displayRole;
+
+        // --- LOGIC ADMIN ---
+        if (role === 'ADMIN') { 
+            document.getElementById('admin-link').style.display = 'inline-block';
+        }
+    }
+
+        // --- LOGIC ĐĂNG XUẤT ---
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            // Xóa tất cả các khóa liên quan đến phiên đã lưu trong index.html
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('tendangnhap');
+            localStorage.removeItem('role');
+            localStorage.removeItem('userId'); 
+
+            // Chuyển hướng về trang Đăng nhập
+            window.location.href = "index.html";
+        });
+
+        // Khởi tạo kiểm tra xác thực khi trang Home tải
+        checkAuthStatus();
+    </script>
+</body>
+</html>

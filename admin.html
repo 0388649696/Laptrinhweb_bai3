@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khu vực Quản trị - Cửa hàng Anhtu</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            background-color: #f8f8f8; 
+            color: #333;
+        }
+        
+        /* --- MENU ĐIỀU HƯỚNG --- */
+        .admin-menu {
+            background-color: #34495e; /* Màu xám xanh đậm */
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-menu a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .admin-menu a:hover {
+            background-color: #2c3e50;
+        }
+
+        /* --- CONTAINER VÀ TIÊU ĐỀ CHÍNH --- */
+        .admin-dashboard { 
+            max-width: 1200px; 
+            margin: 20px auto; 
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #cc0000; 
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* --- HẠNG MỤC (Sections) --- */
+        .admin-section {
+            margin-top: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .admin-section h3 {
+            color: #2c3e50;
+            border-left: 5px solid #cc0000;
+            padding-left: 10px;
+        }
+        
+        /* HIỂN THỊ MẶC ĐỊNH CHO NỘI DUNG CHÍNH */
+        #admin-content-wrapper { display: block !important; }
+
+    </style>
+</head>
+<body>
+    <div class="admin-menu">
+        <span>🛡️ Quản trị Cửa hàng</span>
+        <div>
+            <a href="cuahang.html">Trang bán hàng</a>
+            <span id="admin-user-info">Đang tải dữ liệu...</span>
+        </div>
+    </div>
+    
+    <div id="admin-content-wrapper" class="admin-dashboard">
+        
+        <h1>BẢNG ĐIỀU KHIỂN ADMIN</h1>
+
+        <div id="section-stats" class="admin-section">
+            <h3>1. Thống kê Bán hàng (Grafana)</h3>
+            <p>Biểu đồ số lượng mặt hàng bán được trong từng ngày.</p>
+            <iframe id="grafana-embed" width="100%" height="400px" style="border: none;"></iframe>
+        </div>
+        
+        <div id="section-orders" class="admin-section">
+            <h3>2. Đơn hàng Chờ Xử lý / Cập nhật Trạng thái</h3>
+            <p id="order-status-message" style="color: green; margin-bottom: 10px;">Đang tải...</p>
+            
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Mã Đơn</th>
+                        <th>Ngày Đặt</th>
+                        <th>Tổng Tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-list">
+                    <tr><td colspan="5">Đang tải dữ liệu đơn hàng...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        const ADMIN_STATS_API = 'http://localhost:8088/admin/orders'; 
+        const ORDER_UPDATE_API = 'http://localhost:8088/admin/order/update';
+        const GRAFANA_URL = 'http://localhost:8088/grafana/d/ecom-stats/ecom-dashboard?orgId=1&panelId=1&embed=true'; 
+        
+        // --- LOGIC XÁC MINH VÀ TẢI DỮ LIỆU ---
+        // (Bạn cần đảm bảo hàm getCookie('session_token') được định nghĩa ở đâu đó)
+
+        async function verifyAndLoadAdminData() {
+            // Lấy Token. VẪN CẦN NẾU API ADMIN CÓ BẢO MẬT PHÍA SERVER
+            const token = getCookie('session_token'); 
+            
+            // XÓA ĐIỀU KIỆN 'if (!token)' VÀ 'window.location.href'
+            // để bất kỳ ai cũng có thể cố gắng tải dữ liệu.
+
+            try {
+                // 1. Nhúng Grafana
+                document.getElementById('grafana-embed').src = GRAFANA_URL;
+
+                // 2. Tải danh sách đơn hàng
+                const response = await fetch(ADMIN_STATS_API, {
+                    // API ADMIN VẪN NÊN CÓ AUTHORIZATION NẾU CÓ THỂ
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                });
+                
+                const data = await response.json();
+
+                if (response.status === 200 && data.success && data.orders) {
+                    document.getElementById('admin-user-info').textContent = 'Quản trị viên (Truy cập Mở)';
+                    renderOrders(data.orders);
+                } else if (response.status === 401 || response.status === 403) {
+                     // NẾU API PHÍA SERVER CÓ KIỂM TRA QUYỀN VÀ TRẢ VỀ LỖI
+                    document.getElementById('admin-user-info').textContent = '⚠️ Lỗi: API từ chối truy cập (Cần đăng nhập).';
+                    document.getElementById('orders-list').innerHTML = '<tr><td colspan="5">API Backend từ chối truy cập.</td></tr>';
+                }
+                else {
+                    document.getElementById('admin-user-info').textContent = data.message || 'Lỗi: Không tải được dữ liệu đơn hàng.';
+                    document.getElementById('orders-list').innerHTML = '<tr><td colspan="5">Lỗi API.</td></tr>';
+                }
+            } catch (error) {
+                document.getElementById('admin-user-info').textContent = 'Lỗi kết nối Backend.';
+                document.getElementById('orders-list').innerHTML = '<tr><td colspan="5">Lỗi kết nối mạng.</td></tr>';
+            }
+        }
+        
+        // ... (Hàm renderOrders và updateOrderStatus) ... (Giữ nguyên hoặc copy từ câu trả lời trước)
+
+        // --- KHỞI CHẠY (Luôn chạy khi trang tải xong) ---
+        document.addEventListener('DOMContentLoaded', verifyAndLoadAdminData);
+    </script>
+</body>
+</html>

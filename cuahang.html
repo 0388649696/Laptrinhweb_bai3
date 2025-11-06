@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cửa hàng - Anhtu</title>
+    <style>
+        :root {
+            --primary-blue: #6dd5ed; /* Xanh da trời nhạt */
+            --secondary-blue: #2193b0; /* Xanh nước biển đậm hơn */
+            --accent-green: #2ecc71; /* Xanh lá cây điểm nhấn */
+            --light-bg: #e0f7fa; /* Nền xanh rất nhạt */
+            --dark-text: #2c3e50; /* Văn bản đậm */
+            --light-text: #ecf0f1; /* Văn bản sáng */
+            --border-radius-soft: 12px;
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif; /* Font chính, hiện đại */
+            margin: 0;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--light-bg) 0%, #a7ede6 100%); /* Nền gradient xanh nhẹ */
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        a {
+            color: var(--secondary-blue);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--primary-blue);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Bebas Neue', sans-serif; /* Font tiêu đề, graffiti-inspired */
+            color: var(--secondary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius-soft);
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--primary-blue);
+            border-radius: var(--border-radius-soft);
+            background-color: white;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            border-color: var(--secondary-blue);
+            outline: none;
+            box-shadow: 0 0 8px rgba(var(--primary-blue), 0.6);
+        }
+
+        /* --- LAYOUT & CONTAINERS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95); /* Nền trắng hơi trong */
+            padding: 30px;
+            border-radius: var(--border-radius-soft);
+            box-shadow: var(--shadow-light);
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed rgba(var(--primary-blue), 0.3); /* Đường gạch ngang nét đứt */
+            margin-bottom: 30px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .product-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius-soft);
+            box-shadow: var(--shadow-light);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--primary-blue); /* Viền màu xanh nhẹ */
+        }
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .product-item .product-title {
+            color: var(--dark-text);
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .product-item p {
+            color: #555;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* --- CART & ORDER FORM --- */
+        .cart-section {
+            background-color: rgba(var(--primary-blue), 0.1); /* Nền xanh nhẹ cho giỏ hàng */
+            padding: 25px;
+            border-radius: var(--border-radius-soft);
+            box-shadow: var(--shadow-light);
+            margin-bottom: 30px;
+            border: 2px solid var(--secondary-blue); /* Viền đậm hơn */
+        }
+        .cart-section h3 {
+            color: var(--secondary-blue);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #cart-items li {
+            background-color: white;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary-blue);
+        }
+        #cart-items li button {
+            background-color: var(--primary-blue);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            box-shadow: none;
+            transform: none;
+            margin-left: 5px;
+        }
+        #cart-items li button:hover {
+            background-color: var(--secondary-blue);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .order-form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius-soft);
+            box-shadow: var(--shadow-light);
+            border: 1px dashed var(--primary-blue);
+            margin-top: 25px;
+        }
+        .order-form-container h4 {
+            color: var(--secondary-blue);
+            text-align: center;
+        }
+        #order-status {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--dark-text);
+            padding: 10px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius-soft);
+        }
+
+        /* --- UTILITY & RESPONSIVE --- */
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            .header-section { flex-direction: column; text-align: center; }
+            .header-section h1 { margin-bottom: 15px; }
+            .product-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }    
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🛒 Danh sách Sản phẩm</h1>
+        <div>
+            <a href="home.html">Quay lại Trang Chủ</a> | <span id="auth-status">Đang tải...</span>
+        </div>
+    </div>
+    
+    <div class="cart-section">
+        <h3>Giỏ hàng (<span id="cart-count">0</span>) | Tổng tiền: <span id="cart-total-display">0.00</span> VNĐ</h3>
+        <ul id="cart-items"></ul>
+
+        <div class="order-form-container" style="margin-top: 20px;">
+            <h4>Thông tin Đặt hàng</h4>
+            <form id="order-form">
+                <input type="text" id="order-name" placeholder="Tên người nhận" required>
+                <textarea id="order-address" placeholder="Địa chỉ giao hàng" required></textarea>
+                <input type="text" id="order-phone" placeholder="Số điện thoại" required>
+                <button type="button" id="submit-order-btn" class="add-btn">Xác nhận Đặt hàng</button>
+            </form>
+            <div id="order-status"></div>
+        </div>
+    </div>
+    
+    <div id="categories-list"></div>
+    <h3>Sản phẩm</h3>
+    <div class="product-grid" id="product-list">Đang tải sản phẩm...</div>
+
+    <script>
+        // --- CẤU HÌNH API ---
+        const API_URL = 'http://localhost:8088/products'; // API lấy danh sách SP (sửa để khớp với Nginx mới)
+        const ORDER_API_URL = 'http://localhost:8088/order'; // API Đặt hàng
+        const CATEGORIES_API_URL = 'http://localhost:8088/categories';
+        
+        let cart = []; 
+        let userId = localStorage.getItem('userId') || null; 
+        
+        // --- ELEMENTS ---
+        const productList = document.getElementById('product-list');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotalDisplay = document.getElementById('cart-total-display');
+        const cartItemsList = document.getElementById('cart-items');
+        const orderStatusDiv = document.getElementById('order-status');
+
+        // --- HÀM TẢI VÀ HIỂN THỊ SẢN PHẨM ---
+        async function fetchAndRenderProducts() {
+            // LƯU Ý: Flow Node-RED phải lắng nghe GET /products
+            try {
+                const res = await fetch(API_URL); 
+                const products = await res.json();
+                
+                productList.innerHTML = products.map(p => `
+                    <div class="product-item">
+                        <h4 class="product-title">${p.ten_sp}</h4>
+                        <p>Giá: ${p.gia_ban} VNĐ</p>
+                        <button class="add-btn" onclick="addToCart(${p.id}, '${p.ten_sp}', ${p.gia_ban})">Thêm vào Giỏ</button>
+                    </div>
+                `).join('');
+            } catch (e) {
+                productList.textContent = 'Không tải được sản phẩm. Lỗi API.';
+            }
+        }
+        
+        // --- LOGIC GIỎ HÀNG 
+        // Hàm thêm sản phẩm vào giỏ hoặc tăng số lượng
+        function addToCart(productId, name, price) {
+            // Chuyển giá về dạng số
+            price = parseFloat(price); 
+            
+            // Tìm xem sản phẩm đã có trong giỏ chưa
+            const existingItem = cart.find(item => item.productId === productId);
+            
+            if (existingItem) {
+                // Nếu đã có, tăng số lượng
+                existingItem.quantity += 1;
+            } else {
+                // Nếu chưa có, thêm sản phẩm mới
+                cart.push({ productId, name, price, quantity: 1 });
+            }
+            
+            // Cập nhật giao diện sau khi thay đổi
+            updateCartDisplay();
+        }
+
+        // Hàm này sẽ được gọi từ các nút trong giỏ hàng (sẽ tạo)
+        function changeQuantity(productId, delta) {
+            const item = cart.find(item => item.productId === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+
+            if (item.quantity <= 0) {
+                // Xóa sản phẩm nếu số lượng về 0 hoặc âm
+                cart = cart.filter(i => i.productId !== productId);
+            }
+            
+            updateCartDisplay();
+        }
+
+
+        function updateCartDisplay() {
+        let total = 0;
+        const cartItemsList = document.getElementById('cart-items');
+        const cartCount = document.getElementById('cart-count');
+        const cartTotalDisplay = document.getElementById('cart-total-display');
+
+        cartItemsList.innerHTML = ''; // Xóa nội dung cũ
+
+        console.log("Kích thước giỏ hàng:", cart.length);
+        console.log("Chi tiết giỏ hàng:", cart);
+
+        if (cart.length === 0) {
+            cartItemsList.innerHTML = '<li>Giỏ hàng trống.</li>';
+        } else {
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${item.name} (${item.quantity} x ${item.price.toFixed(2)} VNĐ) - 
+                    <button onclick="changeQuantity(${item.productId}, 1)">+</button>
+                    <button onclick="changeQuantity(${item.productId}, -1)">-</button>
+                    <button onclick="changeQuantity(${item.productId}, -${item.quantity})">Xóa</button>
+                `;
+                cartItemsList.appendChild(li);
+            });
+        }
+
+        // Cập nhật tổng số lượng và tổng tiền
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+        cartTotalDisplay.textContent = total.toFixed(2);
+    }
+        
+        // --- LOGIC ĐẶT HÀNG ĐÃ SỬA ---
+document.getElementById('submit-order-btn').addEventListener('click', async (e) => {
+    e.preventDefault();
+    
+    if (cart.length === 0) {
+        orderStatusDiv.textContent = 'Lỗi: Giỏ hàng trống.';
+        return; 
+    }
+
+    const token = localStorage.getItem('authToken');
+    
+    // 1. Chuẩn bị dữ liệu Đơn hàng (Dùng tên orderData để nhất quán)
+    const orderData = { // ĐÃ ĐỔI TÊN THÀNH orderData
+        ma_khach_hang: userId,
+        ten_nguoi_nhan: document.getElementById('order-name').value,
+        dia_chi_giao: document.getElementById('order-address').value,
+        sdt: document.getElementById('order-phone').value,
+        
+        // Gửi mảng cart đi (Nó phải có dữ liệu sau khi kiểm tra cart.length)
+        chi_tiet: cart.map(item => ({ id: item.productId, so_luong: item.quantity, gia_ban: item.price })), 
+        
+        tong_tien: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    };
+
+    console.log("Dữ liệu được gửi đi:", orderData); // In ra biến orderData ĐÚNG
+    
+    try {
+        // KHÔNG KHAI BÁO LẠI orderDetails NỮA!
+        const res = await fetch(ORDER_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` 
+            },
+            body: JSON.stringify(orderData) // Gửi orderData ĐẦY ĐỦ
+        });
+        
+        const data = await res.json();
+        
+        if (res.status >= 200 && res.status < 300 && data.success) {
+            orderStatusDiv.textContent = `Đặt hàng thành công! Mã đơn: ${data.orderId || 'N/A'}`;
+            cart = []; 
+            updateCartDisplay();
+            document.getElementById('order-form').reset();
+        } else {
+            orderStatusDiv.textContent = `Lỗi (${res.status}): ${data.message || 'Không thể xử lý đơn hàng.'}`;
+        }
+
+    } catch (error) {
+        orderStatusDiv.textContent = 'Lỗi kết nối máy chủ.';
+        console.error("Lỗi Fetch/API:", error);
+    }
+});
+        
+        
+        // --- HÀM TẢI VÀ HIỂN THỊ NHÓM SẢN PHẨM ---
+async function fetchAndRenderCategories() {
+    const categoriesList = document.getElementById('categories-list');
+    try {
+        const res = await fetch(CATEGORIES_API_URL);
+        const categories = await res.json();
+        
+        if (categories.length > 0) {
+            categoriesList.innerHTML = '<h2>Nhóm Sản phẩm</h2>';
+            categoriesList.innerHTML += categories.map(c => `
+                <button class="category-btn" data-id="${c.id}" onclick="filterProductsByGroup(${c.id})">
+                    ${c.ten_nhom}
+                </button>
+            `).join('');
+        } else {
+            categoriesList.innerHTML = '<p>Không có nhóm sản phẩm nào.</p>';
+        }
+
+    } catch (e) {
+        categoriesList.textContent = 'Không tải được nhóm sản phẩm.';
+    }
+}
+
+// Hàm giả (Placeholder) cho tính năng tiếp theo
+function filterProductsByGroup(groupId) {
+    console.log(`Lọc sản phẩm theo nhóm ID: ${groupId}`);
+    // TÍNH NĂNG TIẾP THEO: Gọi API để lọc sản phẩm theo nhóm
+}
+
+
+        // --- KHỞI CHẠY ---
+        fetchAndRenderProducts(); 
+        fetchAndRenderCategories();
+    </script>
+</body>
+</html>

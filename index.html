@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Đăng Nhập Hệ Thống</title>
+ <style>
+  body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+  .login-container { background-color: #fff; padding: 25px 35px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 320px; }
+  h2 { text-align: center; color: #007bff; }
+  .form-group { margin-bottom: 15px; }
+  label { display: block; margin-bottom: 5px; font-weight: bold; }
+  input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+  button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+  button:hover { background-color: #0056b3; }
+  #message { text-align: center; margin-top: 15px; font-weight: bold; }
+ </style>
+</head>
+<body>
+
+<div class="login-container">
+ <h2>Đăng Nhập</h2>
+ <form id="loginForm">
+  <div class="form-group">
+   <label for="tendangnhap">Tên đăng nhập:</label>
+   <input type="text" id="tendangnhap" required>   </div>
+  <div class="form-group">
+   <label for="matkhau">Mật khẩu:</label>
+   <input type="password" id="matkhau" required>   </div>
+  <button type="submit">Đăng Nhập</button>
+ </form>
+ <div id="message"></div>
+</div>
+
+<script>
+// Dùng cổng Nginx đã được cấu hình (http://localhost:8088)
+const LOGIN_API_URL = "http://localhost:8088/api/login"; 
+
+// --- 1. Logic Chuyển hướng nếu Đã Đăng nhập ---
+function checkAuthAndRedirect() {
+    // Kiểm tra xem đã có token trong localStorage chưa
+    if (localStorage.getItem('authToken')) {
+        // Nếu đã đăng nhập, chuyển hướng sang trang home.html
+        window.location.href = "home.html"; 
+    }
+}
+checkAuthAndRedirect(); // Chạy ngay khi tải trang
+
+// --- 2. Logic Xử lý Đăng nhập ---
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+ e.preventDefault();
+ // LẤY DỮ LIỆU TỪ ID ĐÃ SỬA
+ const tendangnhap = document.getElementById('tendangnhap').value.trim(); 
+ const matkhau = document.getElementById('matkhau').value.trim();
+ const messageDiv = document.getElementById('message');
+ messageDiv.textContent = "Đang đăng nhập..."; messageDiv.style.color = "#007bff";
+
+ try {
+  const res = await fetch(LOGIN_API_URL, {
+   method: "POST",
+   headers: { "Content-Type": "application/json" },
+   // SỬA LỖI: GỬI DỮ LIỆU ĐÚNG TÊN TRƯỜNG
+   body: JSON.stringify({ tendangnhap: tendangnhap, matkhau: matkhau })
+  });
+  const data = await res.json();
+
+  if (res.ok && data.token) { // Đảm bảo kiểm tra data.token và res.ok
+   // LƯU DỮ LIỆU VÀO LOCALSTORAGE
+   localStorage.setItem('authToken', data.token);
+   localStorage.setItem('tendangnhap', data.tendangnhap || tendangnhap); // Lưu tên đăng nhập
+   localStorage.setItem('userId', data.id);
+   localStorage.setItem('role', data.role);
+   
+   messageDiv.textContent = "Đăng nhập thành công! đang tới";
+   messageDiv.style.color = "green";
+   
+   // CHUYỂN HƯỚNG TỚI HOME.HTML
+   setTimeout(() => window.location.href = "home.html", 500); 
+  } else {
+   messageDiv.textContent = data.message || "Sai tài khoản hoặc mật khẩu!";
+   messageDiv.style.color = "red";
+  }
+ } catch (err) {
+  console.error(err);
+  messageDiv.textContent = "Không thể kết nối đến máy chủ Nginx (kiểm tra 8088)!";
+  messageDiv.style.color = "red";
+ }
+});
+</script>
+
+</body>
+</html>
