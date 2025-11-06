@@ -1,4 +1,4 @@
-<img width="1531" height="928" alt="image" src="https://github.com/user-attachments/assets/249cef89-e31a-44b9-a729-80b6f1e9ca4d" /># Laptrinhweb_bai3
+# Laptrinhweb_bai3
 ## 1. Khởi chạy cmd với adminitor và thiết lập wsl:
 Chạy lệnh wls -install :
 <img width="1352" height="912" alt="image" src="https://github.com/user-attachments/assets/5527cf03-e4f4-4347-9455-17d7e26884c5" /> .
@@ -187,7 +187,7 @@ networks:
 5. Chức năng đăng nhập
 - <img width="1188" height="364" alt="image" src="https://github.com/user-attachments/assets/7916baf1-864d-48e3-a529-8cde9a074eb7" />
 -  <img width="1531" height="928" alt="image" src="https://github.com/user-attachments/assets/a6b665d6-b9b2-46cf-9365-dd6ed03a9e6e" />
-
+ <img width="1531" height="928" alt="image" src="https://github.com/user-attachments/assets/249cef89-e31a-44b9-a729-80b6f1e9ca4d" />
  
 6. Admin Guard: phục vụ tính năng cho chỉ admin như xem dữ liệu, thống kê.
  - <img width="1085" height="452" alt="image" src="https://github.com/user-attachments/assets/258a1e86-51df-4d24-bafc-a01d83913662" />
