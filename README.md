@@ -169,7 +169,9 @@ networks:
 ### Thiết kế cơ sở dữ liệu:
  - Hình dung bài toán và xây dựng cơ sở dữ liệu chứa các bảng con giải quyết yêu cầu đề bài
  - <img width="1204" height="973" alt="image" src="https://github.com/user-attachments/assets/7aa6eef9-d488-4bbe-9d49-c9ca9ffaa68e" />
+ - <img width="1807" height="985" alt="image" src="https://github.com/user-attachments/assets/830583ae-e2e4-462c-a5e8-003b5db89f6d" />
 
+ 
 ### Thiết kế API trên Nodered:
 1. Login Flow (Function Branch)
  - <img width="1898" height="949" alt="image" src="https://github.com/user-attachments/assets/f4c729a2-6755-433e-90b7-c75595c283f7" />
